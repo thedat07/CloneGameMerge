@@ -160,9 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   score: 6
-  scale: 1
+  scale: 0.5
   nextLevelPrefab: {fileID: 2152200978917659956, guid: fb918d00eaf344ff0aba555a96066fb2, type: 3}
   sr: {fileID: 6053406310939992680}
+  check: 0
 --- !u!58 &3979255059239109634
 CircleCollider2D:
   m_ObjectHideFlags: 0

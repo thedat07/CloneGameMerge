@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
     private Fruit fruit;
     private int fruidId;
     private bool isGameOver;
-    private bool isSpawn;
+    // private bool isSpawn;
 
     public List<int> lstIdSpawn = new List<int>();
     private List<Fruit> fruits = new List<Fruit>();
@@ -52,7 +52,7 @@ public class Game : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (isSpawn)
+            if (fruit.check==false)
             {
                 return;
             }
@@ -97,15 +97,16 @@ public class Game : MonoBehaviour
             var obj = Lean.Pool.LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity, spawnPoint);
             f = obj.GetComponent<Fruit>();
             lineSpriteRenderer.DOFade(1, 0.25f).From(0).SetDelay(0.25f);
-            f.Init(0.25f, Ease.Flash).SetDelay(0.25f).OnStart(() => { isSpawn = true; }).OnComplete(() => { isSpawn = false; });
+            f.Init();
             f.SetSimulated(false);
+            f.check = false;
         }
         else
         {
             var obj = Lean.Pool.LeanPool.Spawn(prefab, pos, Quaternion.identity);
             var objEffect = Lean.Pool.LeanPool.Spawn(effect, pos, Quaternion.identity);
             f = obj.GetComponent<Fruit>();
-            f.Init(0.6f, Ease.OutBack);
+            f.Init();
             objEffect.transform.localScale = Vector3.one * f.ScaleModel();
             Lean.Pool.LeanPool.Despawn(objEffect, 3);
         }

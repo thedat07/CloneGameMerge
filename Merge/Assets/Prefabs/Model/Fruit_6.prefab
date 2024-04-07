@@ -160,9 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   score: 7
-  scale: 1
+  scale: 0.5
   nextLevelPrefab: {fileID: 1439456131119222807, guid: 5f437d7d3e74a4426b9bb552d12dd528, type: 3}
   sr: {fileID: 4981969800033491296}
+  check: 0
 --- !u!60 &1621418504027449345
 PolygonCollider2D:
   m_ObjectHideFlags: 0

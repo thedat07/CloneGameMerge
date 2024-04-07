@@ -18,11 +18,11 @@ public class Fruit : MonoBehaviour
 
     public float ScaleModel() => sr.size.x / 4;
 
-    public Sequence Init(float time, Ease ease)
+    public bool check;
+
+    public void Init()
     {
-        Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(transform.DOScale(Vector3.one * scale, time).From(Vector3.zero).SetEase(ease));
-        return mySequence;
+        transform.localScale = Vector3.zero;
     }
 
     void Update()
@@ -37,6 +37,22 @@ public class Fruit : MonoBehaviour
             OnGameOver?.Invoke();
         }
     }
+
+
+    void FixedUpdate()
+    {
+        var step = 3 * Time.fixedDeltaTime;
+        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one * scale, step);
+        if (Vector3.Distance(transform.localScale, Vector3.one * scale) < 0.001f)
+        {
+            check = true;
+        }
+        else
+        {
+            check = false;
+        }
+    }
+
     public void SetSimulated(bool b)
     {
         if (rigid == null)
