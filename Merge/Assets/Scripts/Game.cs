@@ -18,6 +18,8 @@ public class Game : MonoBehaviour
     public CanvasGroup uiEnd;
     public SpriteRenderer lineSpriteRenderer;
     public TextMeshProUGUI scoreLabel;
+    public TextMeshProUGUI scoreMax;
+
 
     [Header("Setting")]
     public Vector2 limit;
@@ -27,7 +29,7 @@ public class Game : MonoBehaviour
     private Fruit fruit;
     private int fruidId;
     private bool isGameOver;
-    // private bool isSpawn;
+    private bool isSpawn;
 
     public List<int> lstIdSpawn = new List<int>();
     private List<Fruit> fruits = new List<Fruit>();
@@ -35,6 +37,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
         uiEnd.gameObject.SetActive(false);
         canvasScaler.matchWidthOrHeight = LB.ScaleCanvas();
         lstIdSpawn.Add(Random.Range(0, fruitPrefabList.Count));
@@ -50,27 +54,23 @@ public class Game : MonoBehaviour
             return;
         }
 
+
         if (Input.GetMouseButtonUp(0))
         {
-            if (fruit.check==false)
-            {
-                return;
-            }
-            var mousePos = Input.mousePosition;
-            var wolrdPos = Camera.main.ScreenToWorldPoint(mousePos);
-            spawnPoint.DOMoveX(Mathf.Clamp(wolrdPos.x, limit.x, limit.y), 0.1f).OnComplete(() =>
+            if (isSpawn == false)
             {
                 fruit.gameObject.transform.position = spawnPoint.position;
-                fruit.transform.parent = null;
-                fruit.SetSimulated(true);
+                fruit.Fly();
                 fruit = SpawnNextFruit();
-            });
+            }
         }
         else
         {
+            Vector3 point = spawnPoint.position;
             var mousePos = Input.mousePosition;
             var wolrdPos = Camera.main.ScreenToWorldPoint(mousePos);
-            spawnPoint.DOMoveX(Mathf.Clamp(wolrdPos.x, limit.x, limit.y), 0.1f);
+            point.x = Mathf.Clamp(wolrdPos.x, limit.x, limit.y);
+            spawnPoint.position = point;
         }
     }
 
@@ -94,22 +94,23 @@ public class Game : MonoBehaviour
 
         if (spawn)
         {
+            isSpawn = true;
+            lineSpriteRenderer.gameObject.SetActive(false);
             var obj = Lean.Pool.LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity, spawnPoint);
             f = obj.GetComponent<Fruit>();
-            lineSpriteRenderer.DOFade(1, 0.25f).From(0).SetDelay(0.25f);
-            f.Init();
-            f.SetSimulated(false);
-            f.check = false;
+            f.Init(0.25f, Ease.Linear).SetDelay(0.5f).OnKill(() => { isSpawn = false; lineSpriteRenderer.gameObject.SetActive(true); });
         }
         else
         {
             var obj = Lean.Pool.LeanPool.Spawn(prefab, pos, Quaternion.identity);
             var objEffect = Lean.Pool.LeanPool.Spawn(effect, pos, Quaternion.identity);
             f = obj.GetComponent<Fruit>();
-            f.Init();
-            objEffect.transform.localScale = Vector3.one * f.ScaleModel();
+            f.Scale(0.1f, Ease.OutBack);
+            objEffect.transform.localScale = Vector3.one * f.ScaleModel(); ;
             Lean.Pool.LeanPool.Despawn(objEffect, 3);
         }
+
+        f.SetSimulated(false);
 
         f.id = fruidId++;
 
@@ -146,6 +147,7 @@ public class Game : MonoBehaviour
         isGameOver = true;
         uiEnd.gameObject.SetActive(true);
         uiEnd.DOFade(1, 0.2f).From(0);
+        scoreMax.text = GameManager.Instance.GetSorce().ToString();
     }
 
     public void Restart()
@@ -172,6 +174,7 @@ public class Game : MonoBehaviour
             {
                 fruits.Remove(f);
                 Lean.Pool.LeanPool.Despawn(f.gameObject);
+                f.SetSimulated(false);
                 return;
             }
         }
@@ -191,6 +194,10 @@ public class Game : MonoBehaviour
 
     private void AddScore(int score)
     {
+        if (isGameOver)
+        {
+            return;
+        }
         GameManager.Instance.AddScore(score);
         scoreLabel.text = $"{GameManager.Instance.score}";
     }

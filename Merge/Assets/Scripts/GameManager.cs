@@ -15,4 +15,12 @@ public class GameManager : Singleton<GameManager>
     {
         this.score = 0;
     }
+
+    public int GetSorce()
+    {
+        int max = PlayerPrefs.GetInt("MaxScore") >= score ? PlayerPrefs.GetInt("MaxScore") : score;
+        PlayerPrefs.SetInt("MaxScore", max);
+        PlayerPrefs.Save();
+        return max;
+    }
 }
