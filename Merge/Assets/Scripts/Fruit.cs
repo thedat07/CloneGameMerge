@@ -37,7 +37,7 @@ public class Fruit : MonoBehaviour
     {
         rigid.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
         Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(transform.DOScale(Vector3.one * scale, time).From(Vector3.zero).SetEase(ease));
+        mySequence.Append(transform.DOScale(Vector3.one * scale * 100, time).From(Vector3.zero).SetEase(ease));
         return mySequence;
     }
 

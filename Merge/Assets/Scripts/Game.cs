@@ -16,7 +16,7 @@ public class Game : MonoBehaviour
     [Header("Ref")]
     public Transform spawnPoint;
     public CanvasGroup uiEnd;
-    public SpriteRenderer lineSpriteRenderer;
+    public GameObject line;
     public TextMeshProUGUI scoreLabel;
     public TextMeshProUGUI scoreMax;
 
@@ -95,10 +95,10 @@ public class Game : MonoBehaviour
         if (spawn)
         {
             isSpawn = true;
-            lineSpriteRenderer.gameObject.SetActive(false);
+            line.SetActive(false);
             var obj = Lean.Pool.LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity, spawnPoint);
             f = obj.GetComponent<Fruit>();
-            f.Init(0.25f, Ease.Linear).SetDelay(0.5f).OnKill(() => { isSpawn = false; lineSpriteRenderer.gameObject.SetActive(true); });
+            f.Init(0.25f, Ease.Linear).SetDelay(0.5f).OnKill(() => { isSpawn = false; line.SetActive(true); });
         }
         else
         {
