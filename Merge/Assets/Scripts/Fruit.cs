@@ -33,11 +33,14 @@ public class Fruit : MonoBehaviour
         SetSimulated(true);
     }
 
-    public Sequence Init(float time, Ease ease)
+    public Sequence Init(float time, Ease ease, Transform point)
     {
+        transform.localScale = Vector3.one * scale;
+        transform.parent = point;
+        Vector3 scaleModel = transform.localScale;
         rigid.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
         Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(transform.DOScale(Vector3.one * scale * 100, time).From(Vector3.zero).SetEase(ease));
+        mySequence.Append(transform.DOScale(scaleModel, time).From(Vector3.zero).SetEase(ease));
         return mySequence;
     }
 

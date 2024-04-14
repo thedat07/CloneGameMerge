@@ -96,9 +96,9 @@ public class Game : MonoBehaviour
         {
             isSpawn = true;
             line.SetActive(false);
-            var obj = Lean.Pool.LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity, spawnPoint);
+            var obj = Lean.Pool.LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity);
             f = obj.GetComponent<Fruit>();
-            f.Init(0.25f, Ease.Linear).SetDelay(0.5f).OnKill(() => { isSpawn = false; line.SetActive(true); });
+            f.Init(0.25f, Ease.Linear, spawnPoint).SetDelay(0.5f).OnKill(() => { isSpawn = false; line.SetActive(true); });
         }
         else
         {
