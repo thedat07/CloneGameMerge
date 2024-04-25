@@ -34,13 +34,17 @@ public class Game : MonoBehaviour
     public List<int> lstIdSpawn = new List<int>();
     private List<Fruit> fruits = new List<Fruit>();
 
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         uiEnd.gameObject.SetActive(false);
         canvasScaler.matchWidthOrHeight = LB.ScaleCanvas();
+    }
+
+    void Start()
+    {
         lstIdSpawn.Add(Random.Range(0, fruitPrefabList.Count));
         lstIdSpawn.Add(Random.Range(0, fruitPrefabList.Count));
         fruit = SpawnNextFruit();
