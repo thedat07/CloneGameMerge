@@ -22,6 +22,7 @@ public class Game : MonoBehaviour
 
 
     [Header("Setting")]
+    public RectTransform bg;
     public Vector2 limit;
     public Image imgNext;
     public CanvasScaler canvasScaler;
@@ -41,6 +42,7 @@ public class Game : MonoBehaviour
         Application.targetFrameRate = 60;
         uiEnd.gameObject.SetActive(false);
         canvasScaler.matchWidthOrHeight = LB.ScaleCanvas();
+        bg.localScale = Vector3.one * LB.ScaleGame();
     }
 
     void Start()
@@ -72,9 +74,14 @@ public class Game : MonoBehaviour
         {
             Vector3 point = spawnPoint.position;
             var mousePos = Input.mousePosition;
+
             var wolrdPos = Camera.main.ScreenToWorldPoint(mousePos);
-            point.x = Mathf.Clamp(wolrdPos.x, limit.x, limit.y);
+            point.x = wolrdPos.x;
             spawnPoint.position = point;
+
+            var rec = spawnPoint.GetComponent<RectTransform>().anchoredPosition;
+            rec.x = Mathf.Clamp(rec.x, limit.x, limit.y);
+            spawnPoint.GetComponent<RectTransform>().anchoredPosition = rec;
         }
     }
 

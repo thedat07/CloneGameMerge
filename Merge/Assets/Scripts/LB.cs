@@ -12,11 +12,16 @@ public static class LB
 
     public static float ScaleGame()
     {
-        float targetWidth = 1080; // Or any other reference width
-        float screenWidth = Screen.width;
-        Debug.Log(screenWidth);
-        float scale = screenWidth / targetWidth;
-        return scale;
+        if (Screen.height == 2658)
+        {
+            return 1.57f;
+        }
+        else
+        {
+            float target = 1920; // Or any other reference width
+            float screen = Screen.height;
+            float scale = screen / target;
+            return scale;
+        }
     }
-
 }
