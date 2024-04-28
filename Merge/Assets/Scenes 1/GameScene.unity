@@ -548,7 +548,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 463, y: 0}
+  m_Offset: {x: 490, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -638,7 +638,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -463, y: 0}
+  m_Offset: {x: -490, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1137,7 +1137,7 @@ MonoBehaviour:
   line: {fileID: 2066009942}
   scoreLabel: {fileID: 1431901961}
   scoreMax: {fileID: 728685801}
-  limit: {x: -300, y: 300}
+  limit: {x: -365, y: 365}
   imgNext: {fileID: 1128800087}
   canvasScaler: {fileID: 1369068071}
   canvasScalerUI: {fileID: 1447344797}
