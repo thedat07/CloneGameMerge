@@ -22,10 +22,10 @@ public class Game : MonoBehaviour
 
 
     [Header("Setting")]
-    public RectTransform bg;
     public Vector2 limit;
     public Image imgNext;
     public CanvasScaler canvasScaler;
+    public CanvasScaler canvasScalerUI;
 
     private Fruit fruit;
     private int fruidId;
@@ -35,14 +35,15 @@ public class Game : MonoBehaviour
     public List<int> lstIdSpawn = new List<int>();
     private List<Fruit> fruits = new List<Fruit>();
 
+    public bool tablet;
 
     void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         uiEnd.gameObject.SetActive(false);
-        canvasScaler.matchWidthOrHeight = LB.ScaleCanvas();
-        bg.localScale = Vector3.one * LB.ScaleGame();
+        canvasScaler.ScaleCanvas(!LB.IsTablet(SystemInfo.deviceModel, tablet));
+        canvasScalerUI.ScaleCanvas(LB.IsTablet(SystemInfo.deviceModel, tablet));
     }
 
     void Start()
